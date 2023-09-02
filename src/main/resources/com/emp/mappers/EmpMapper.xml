@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.emp.mappers.EmpMapper">
+    <insert id="addEmp">
+        insert into emp (emp_name, sex, age, dept_name, emp_degree_name)
+        values (#{emp_name},#{sex},#{age},#{dept_name},#{degree_name});
+    </insert>
+    <update id="updateEmp">
+        update emp
+        set emp_name = #{emp_name},sex=#{sex},age=#{age},dept_name=#{dept_name},emp_degree_name=#{degree_name}
+        where id=#{id};
+    </update>
+    <delete id="deleteEmp">
+        delete
+        from emp
+        where id=#{id};
+    </delete>
+
+    <select id="getEmpList" resultType="com.emp.entity.Emp">
+        select *
+        from emp
+    </select>
+    <select id="getDeptList" resultType="com.emp.entity.Dept">
+        select *
+        from dept;
+    </select>
+    <select id="getDegreeList" resultType="com.emp.entity.Degree">
+        select *
+        from degree;
+    </select>
+    <select id="queryEmp" resultType="com.emp.entity.Emp">
+        select * from emp
+        where 1=1
+           <if test="emp_name != ''">
+            and emp_name like concat('%', #{emp_name}, '%')
+        </if>
+        <if test="dept_name != ''">
+              and dept_name=#{dept_name}
+            </if>
+            <if test=" emp_degree_name != ''">
+               and emp_degree_name=#{emp_degree_name}
+            </if>
+
+    </select>
+</mapper>
